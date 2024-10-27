@@ -35,7 +35,6 @@ def memory_game_cards():
     return score
 
 def topdown_dungeon_game():
-    game = True
     playerX = 2
     playerY = 2
     counter = 0
@@ -58,44 +57,35 @@ def topdown_dungeon_game():
         x = r.choice(range(1, len(currentMap[0] ) - 1))
         if currentMap[y][x]  != "#":
             currentMap[y][x] = "*"
-
-    while game:
-        
+    while True:
         os.system('cls')
-        currentMap[playerY][playerX] = "O" #иконка игрока
+        currentMap[playerY][playerX] = "O"
         output = str(np.matrix(currentMap))
         output = output.replace("O",str(counter))
-        #удалить ненужные символы из вывода
         output = output.replace("[","")
         output = output.replace("]","")
         output = output.replace(",","")
         output = output.replace("'","")
         print(" " + output)
-        #input check
         currentMap[playerY][playerX] = "_" #to remove previous player position
         if(sum(line.count('*') for line in currentMap) == 0):
             return counter
-        
         direction = input("куда двинетесь?(wasd): ")
         if direction == "a":
             if currentMap[playerY][playerX - 1]  != "#":
                 playerX-=1
                 if currentMap[playerY][playerX] == "*":
-
                     counter +=1
-                
         if direction == "d":
             if currentMap[playerY][playerX + 1]  != "#":
                 playerX+=1
                 if currentMap[playerY][playerX] == "*":
                     counter +=1
-                
         if direction == "w":
             if currentMap[playerY - 1][playerX]  != "#":
                 playerY-=1   
                 if currentMap[playerY][playerX] == "*":
                     counter +=1
-                  
         if direction == "s":
             if currentMap[playerY + 1][playerX]  != "#":
                 playerY+=1
