@@ -1,6 +1,8 @@
 import random as r
 import time
 import os
+import numpy as np
+
 
 def memory_game_cards():
     arr = []
@@ -24,8 +26,77 @@ def memory_game_cards():
             noMistake = False
     return score
 
-def dungeon_game():
-    print() 
+def topdown_dungeon_game():
+    game = True
+    playerX = 2
+    playerY = 2
+    counter = 0
+    currentMap=[
+            ["#","#","#","#","#","#","#","#","#","#"],
+            ["#","_","_","_","#","_","_","_","_","#"],
+            ["#","_","_","_","#","_","_","_","_","#"],
+            ["#","_","_","_","#","_","_","_","_","#"],
+            ["#","_","_","_","#","_","_","_","_","#"],
+            ["#","#","#","_","#","_","_","_","_","#"],
+            ["#","_","_","_","#","_","_","_","_","#"],
+            ["#","_","#","#","#","_","_","_","_","#"],
+            ["#","_","#","_","_","_","_","_","_","#"],
+            ["#","_","#","_","_","_","_","_","_","#"],
+            ["#","_","_","_","_","_","_","_","_","#"],
+            ["#","#","#","#","#","#","#","#","#","#"]
+        ]
+    for i in range(5):
+        y = r.choice(range(1, len(currentMap) - 1))
+        x = r.choice(range(1, len(currentMap[0] ) - 1))
+        if currentMap[y][x]  != "#":
+            currentMap[y][x] = "*"
+
+    while game:
+        
+        os.system('cls')
+        currentMap[playerY][playerX] = "O" #иконка игрока
+        output = str(np.matrix(currentMap))
+        output = output.replace("O",str(counter))
+        #удалить ненужные символы из вывода
+        output = output.replace("[","")
+        output = output.replace("]","")
+        output = output.replace(",","")
+        output = output.replace("'","")
+        print(" " + output)
+        #input check
+        currentMap[playerY][playerX] = "_" #to remove previous player position
+        if(sum(line.count('*') for line in currentMap) == 0):
+            return counter
+        
+        direction = input("куда двинетесь?(wasd): ")
+        if direction == "a":
+            if currentMap[playerY][playerX - 1]  != "#":
+                playerX-=1
+                if currentMap[playerY][playerX] == "*":
+
+                    counter +=1
+                
+        if direction == "d":
+            if currentMap[playerY][playerX + 1]  != "#":
+                playerX+=1
+                if currentMap[playerY][playerX] == "*":
+                    counter +=1
+                
+        if direction == "w":
+            if currentMap[playerY - 1][playerX]  != "#":
+                playerY-=1   
+                if currentMap[playerY][playerX] == "*":
+                    counter +=1
+                  
+        if direction == "s":
+            if currentMap[playerY + 1][playerX]  != "#":
+                playerY+=1
+                if currentMap[playerY][playerX] == "*":
+                    counter +=1
+                
+
+        
+        
 
 def RPS():
     enemy = r.randint(0, 2)
@@ -58,7 +129,7 @@ def gallows():
         elif(len(letter) == 1):
             if(letter in word):
                 i = word.index(letter)
-                word[i] = '-'
+                word[i] = '/'
                 guess[i] = letter
                 if( "".join(e for e in guess) == wordog):
                     break
@@ -73,7 +144,7 @@ def gallows():
 def main():
     overallScore = 0
     while True:
-        print("данный проект - набор миниигр. общий счет: "+ str(overallScore) +" \nвыберите игру: \n1) игра на запоминание последовательности \n2)камень ножницы бумага. \n3)виселица.  ")
+        print("данный проект - набор миниигр. общий счет: "+ str(overallScore) +" \nвыберите игру: \n1) игра на запоминание последовательности \n2)камень ножницы бумага. \n3)виселица. \n4)сбор предметов. ")
         selector =  str(input())
         match selector:
             case "1":
@@ -82,5 +153,7 @@ def main():
                 overallScore += RPS()
             case "3":
                 overallScore += gallows()
+            case "4":
+                overallScore += topdown_dungeon_game()
 
 main()
