@@ -1,3 +1,11 @@
+
+'''
+код и историю коммитов можно найти так же на https://github.com/novff/python-game
+
+во мне нет сил писать сюжеты поэтому вместо новеллы я написал набор консольных миниигр.
+да и методов переменных и способов использования переменных здесь тоже хватит.
+'''
+
 import random as r
 import time
 import os
@@ -143,7 +151,8 @@ def gallows():
 
 def main():
     overallScore = 0
-    while True:
+    print("добро пожаловать в игру, ваша задача набрать 100 очков")
+    while overallScore < 100:
         print("данный проект - набор миниигр. общий счет: "+ str(overallScore) +" \nвыберите игру: \n1) игра на запоминание последовательности \n2)камень ножницы бумага. \n3)виселица. \n4)сбор предметов. ")
         selector =  str(input())
         match selector:
@@ -157,3 +166,4 @@ def main():
                 overallScore += topdown_dungeon_game()
 
 main()
+print("поздравляю с завершением игры.")
